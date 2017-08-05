@@ -11,7 +11,9 @@ class LandingPageController extends Controller
     {
         $subdomain = $this->getSubdomain($request->getHost());
 
-        $page = LandingPage::where('subdomain', $subdomain)->first();
+        $page = LandingPage::where('subdomain', $subdomain)
+            ->orWhere('domain', $request->getHost())
+            ->first();
 
         if (is_null($page)) {
             abort(404, 'That landing page was not found');
