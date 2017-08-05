@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'LandingPageController@index')->name('landing_page');
+Route::get('/subscription', 'SubscriptionController@index')->name('show_subscription');
+Route::post('/subscription', 'SubscriptionController@create')->name('create_subscription');

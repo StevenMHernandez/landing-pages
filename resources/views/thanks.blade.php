@@ -79,25 +79,11 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    {{ $page->header }}
+                    {{ $page->thanks_text }}
                 </div>
 
                 <div class="links">
-                    {!! Form::open(['method', 'POST', 'route' => 'create_subscription']) !!}
-                        <div>
-                            <label>
-                                Your Email: <br>
-                                {!! Form::email('email') !!}
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                Tell us about your company: <br>
-                                {!! Form::textarea('description') !!}
-                            </label>
-                        </div>
-                        {!! Form::submit($page->sign_up_text) !!}
-                    {!! Form::close() !!}
+                    {{ $page->thanks_full_text }}
                 </div>
             </div>
         </div>

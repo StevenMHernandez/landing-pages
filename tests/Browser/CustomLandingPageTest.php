@@ -34,7 +34,7 @@ class CustomLandingPageTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('http://test.landing.app')
                 ->assertSee('Welcome to your doom!')
-                ->assertSee('Sign On Up');
+                ->assertValue('input[type="submit"]', 'Sign On Up');
         });
     }
 
@@ -65,6 +65,36 @@ class CustomLandingPageTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('http://landing.app')
                 ->assertSee("Let's get you some money!");
+        });
+    }
+
+    public function testFormSubmit()
+    {
+        $this->user = factory(User::class)->create([
+            'email' => 'subdomaincreator@landing.app',
+        ]);
+
+        factory(LandingPage::class)->create([
+            'subdomain' => 'test',
+            'domain' => null,
+            'user_id' => $this->user->id,
+            'header' => 'Welcome to your doom!',
+            'sign_up_text' => 'Sign On Up',
+            'thanks_text' => 'Aye, Thanks!',
+            'thanks_full_text' => 'We will let you know as things happen!',
+        ]);
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('http://test.landing.app')
+                ->assertSee('Welcome to your doom!')
+                ->assertValue('input[type="submit"]', 'Sign On Up')
+                ->type('email', 'user@example.com')
+                ->type('description', 'We are an example company')
+                ->press('Sign On Up')
+                ->assertSee('Aye, Thanks!')
+                ->assertSee('We will let you know as things happen!')
+                ->refresh()
+                ->assertRouteIs('show_subscription');
         });
     }
 }
