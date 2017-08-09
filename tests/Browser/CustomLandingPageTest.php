@@ -4,6 +4,9 @@ namespace Tests\Browser;
 
 use App\Models\LandingPage;
 use App\Models\User;
+use App\Notifications\NewSubscriber;
+use App\Notifications\Subscribed;
+use Illuminate\Support\Facades\Notification;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -70,11 +73,12 @@ class CustomLandingPageTest extends DuskTestCase
 
     public function testFormSubmit()
     {
+
         $this->user = factory(User::class)->create([
             'email' => 'subdomaincreator@landing.app',
         ]);
 
-        factory(LandingPage::class)->create([
+        $landingPage = factory(LandingPage::class)->create([
             'subdomain' => 'test',
             'domain' => null,
             'user_id' => $this->user->id,
@@ -84,7 +88,9 @@ class CustomLandingPageTest extends DuskTestCase
             'thanks_full_text' => 'We will let you know as things happen!',
         ]);
 
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($landingPage) {
+            Notification::fake();
+
             $browser->visit('http://test.landing.app')
                 ->assertSee('Welcome to your doom!')
                 ->assertValue('input[type="submit"]', 'Sign On Up')
@@ -95,6 +101,10 @@ class CustomLandingPageTest extends DuskTestCase
                 ->assertSee('We will let you know as things happen!')
                 ->refresh()
                 ->assertRouteIs('show_subscription');
+
+            $subscribers = $landingPage->subscribers()->get();
+
+            $this->assertCount(1, $subscribers);
         });
     }
 }
