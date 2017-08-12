@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\EmailContent;
 use App\Models\LandingPage;
 use App\Models\User;
 use App\Notifications\NewSubscriber;
@@ -70,6 +71,12 @@ class LandingPageTest extends TestCase
             'thanks_text' => 'Aye, Thanks!',
         ]);
 
+        $landingPageEmailContent = factory(EmailContent::class)->create([
+            'landing_page_id' => $landingPage->id,
+            'thanks_text' => 'Finally, you subscribed!!',
+            'description_text' => 'We\'ll email you some questions soon',
+        ]);
+
         $this->post("http://test." . env('APP_DOMAIN') . route('create_subscription', [], false), [
             'email' => 'user@example.com',
             'description' => 'We are an example company',
@@ -77,11 +84,19 @@ class LandingPageTest extends TestCase
             ->assertRedirect("http://test." . env('APP_DOMAIN') . route('show_subscription', [], false))
             ->assertStatus(302);
 
+        $owner = $landingPage->owner()->get();
         $subscribers = $landingPage->subscribers()->get();
 
+        $this->assertCount(1, $owner);
         $this->assertCount(1, $subscribers);
 
-        Notification::assertSentTo($landingPage->owner()->get(), NewSubscriber::class);
+
+        Notification::assertSentTo($landingPage->owner()->get(), NewSubscriber::class, function (NewSubscriber $notification) {
+            $data = $notification->toMail(null)->data();
+            $this->assertEquals($data['introLines'][0], "Finally, you subscribed!!");
+            $this->assertEquals($data['introLines'][1], "We'll email you some questions soon");
+            return true;
+        });
         Notification::assertNotSentTo([$otherUser], NewSubscriber::class);
         Notification::assertSentTo([$subscribers[0]], Subscribed::class);
     }

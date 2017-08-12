@@ -29,3 +29,7 @@ $factory->define(App\Models\LandingPage::class, function (Faker\Generator $faker
     ];
 });
 
+$factory->define(App\Models\EmailContent::class, function (Faker\Generator $faker) {
+    return [];
+});
+
