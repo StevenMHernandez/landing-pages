@@ -8,7 +8,10 @@ class LandingPageController extends Controller
 {
     public function index(Request $request)
     {
-        $page = $this->getLandingPage($request)->load('features');
+        $page = $this->getLandingPage($request)->load([
+            'features',
+            'socialLinks'
+        ]);
 
         if (is_null($page)) {
             abort(404, 'That landing page was not found');

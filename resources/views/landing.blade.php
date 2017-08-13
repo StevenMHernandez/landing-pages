@@ -106,11 +106,9 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Connect with us</h2>
-                <a class="icon-facebook"></a>
-                <a class="icon-twitter"></a>
-                <a class="icon-google"></a>
-                <a class="icon-instagram"></a>
-                <a class="icon-pinterest"></a>
+                @foreach($page->socialLinks as $link)
+                    <a class="{{ $link->icon }}" href="{{ $link->url }}"></a>
+                @endforeach
             </div>
         </div>
     </div>

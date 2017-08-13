@@ -33,6 +33,14 @@ class LandingPage extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function socialLinks()
+    {
+        return $this->hasMany(SocialLink::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function subscribers()
     {
         return $this->hasMany(Subscriber::class);

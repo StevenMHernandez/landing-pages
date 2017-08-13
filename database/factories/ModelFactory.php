@@ -33,7 +33,6 @@ $factory->define(App\Models\EmailContent::class, function (Faker\Generator $fake
     return [];
 });
 
-
 $factory->define(App\Models\Feature::class, function (Faker\Generator $faker) {
     return [
         'icon' => 'fa-question_circle',
@@ -42,3 +41,9 @@ $factory->define(App\Models\Feature::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Models\SocialLink::class, function (Faker\Generator $faker) {
+    return [
+        'icon' => 'icon-twitter',
+        'url' => $faker->url,
+    ];
+});

@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use App\Models\Feature;
 use App\Models\LandingPage;
+use App\Models\SocialLink;
 use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 use Tests\DuskTestCase;
@@ -156,6 +157,50 @@ class CustomLandingPageTest extends DuskTestCase
                 ->waitFor('.fa-stethoscope')
                 ->assertSee(strtoupper('Keeping your company healthy'))
                 ->assertSee('Watching the status of your business.');
+        });
+    }
+
+    public function testSocialIcons()
+    {
+        $this->user = factory(User::class)->create([
+            'email' => 'subdomaincreator@landing.app',
+        ]);
+
+        $landingPage = factory(LandingPage::class)->create([
+            'subdomain' => 'test',
+            'domain' => null,
+            'user_id' => $this->user->id,
+            'header' => 'Testing Icon Features',
+            'sign_up_text' => 'Sign On Up',
+            'thanks_text' => 'Aye, Thanks!',
+            'thanks_full_text' => 'We will let you know as things happen!',
+        ]);
+
+        factory(SocialLink::class)->create([
+            'landing_page_id' => $landingPage->id,
+            'icon' => 'icon-facebook',
+            'url' => 'http://facebook.com',
+        ]);
+
+        factory(SocialLink::class)->create([
+            'landing_page_id' => $landingPage->id,
+            'icon' => 'icon-tumblr',
+            'url' => 'http://tumblr.com',
+        ]);
+
+        $this->browse(function (Browser $browser) use ($landingPage) {
+            $browser->visit('http://test.landing.app')
+                ->driver->executeScript('window.scrollTo(0, 2200);');
+            $browser->waitFor('.icon-facebook')
+                ->click('.icon-facebook');
+
+            $this->assertEquals('https://www.facebook.com/', $browser->driver->getCurrentURL());
+
+            $browser
+                ->back()
+                ->click('.icon-tumblr');
+
+            $this->assertEquals('https://www.tumblr.com/', $browser->driver->getCurrentURL());
         });
     }
 }
