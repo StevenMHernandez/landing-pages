@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\EmailContent;
 use App\Models\Feature;
 use App\Models\LandingPage;
 use App\Models\SocialLink;
@@ -90,10 +91,17 @@ class CustomLandingPageTest extends DuskTestCase
             'thanks_full_text' => 'We will let you know as things happen!',
         ]);
 
+        factory(EmailContent::class)->create([
+            'landing_page_id' => $landingPage->id,
+            'thanks_text' => 'Thanks for your doom',
+            'description_text' => 'Mwahahaha',
+        ]);
+
         $this->browse(function (Browser $browser) use ($landingPage) {
             Notification::fake();
 
             $browser->visit('http://test.landing.app')
+                ->pause(100)
                 ->assertSee(strtoupper('Welcome to your doom!'))
                 ->assertValue('input[type="submit"]', 'Sign On Up')
                 ->type('email', 'user@example.com')
