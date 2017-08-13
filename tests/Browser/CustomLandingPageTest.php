@@ -2,10 +2,9 @@
 
 namespace Tests\Browser;
 
+use App\Models\Feature;
 use App\Models\LandingPage;
 use App\Models\User;
-use App\Notifications\NewSubscriber;
-use App\Notifications\Subscribed;
 use Illuminate\Support\Facades\Notification;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -73,7 +72,6 @@ class CustomLandingPageTest extends DuskTestCase
 
     public function testFormSubmit()
     {
-
         $this->user = factory(User::class)->create([
             'email' => 'subdomaincreator@landing.app',
         ]);
@@ -105,6 +103,59 @@ class CustomLandingPageTest extends DuskTestCase
             $subscribers = $landingPage->subscribers()->get();
 
             $this->assertCount(1, $subscribers);
+        });
+    }
+
+    public function testIconFeatures()
+    {
+        $this->user = factory(User::class)->create([
+            'email' => 'subdomaincreator@landing.app',
+        ]);
+
+        $landingPage = factory(LandingPage::class)->create([
+            'subdomain' => 'test',
+            'domain' => null,
+            'user_id' => $this->user->id,
+            'header' => 'Testing Icon Features',
+            'sign_up_text' => 'Sign On Up',
+            'thanks_text' => 'Aye, Thanks!',
+            'thanks_full_text' => 'We will let you know as things happen!',
+        ]);
+
+        factory(Feature::class)->create([
+            'landing_page_id' => $landingPage->id,
+            'icon' => 'fa-file-excel-o',
+            'header' => 'Pulling in your excel files.',
+            'body' => 'We make it easy.'
+        ]);
+
+        factory(Feature::class)->create([
+            'landing_page_id' => $landingPage->id,
+            'icon' => 'fa-space-shuttle',
+            'header' => 'Get ready for orbit',
+            'body' => 'We\'ll help push your reports into space.'
+        ]);
+
+        factory(Feature::class)->create([
+            'landing_page_id' => $landingPage->id,
+            'icon' => 'fa-stethoscope',
+            'header' => 'Keeping your company healthy',
+            'body' => 'Watching the status of your business.'
+        ]);
+
+        $this->browse(function (Browser $browser) use ($landingPage) {
+            $browser->visit('http://test.landing.app')
+                ->driver->executeScript('window.scrollTo(0, 900);');
+            $browser
+                ->waitFor('.fa-file-excel-o')
+                ->assertSee(strtoupper('Pulling in your excel files.'))
+                ->assertSee('We make it easy')
+                ->waitFor('.fa-space-shuttle')
+                ->assertSee(strtoupper('Get ready for orbit'))
+                ->assertSee('We\'ll help push your reports into space.')
+                ->waitFor('.fa-stethoscope')
+                ->assertSee(strtoupper('Keeping your company healthy'))
+                ->assertSee('Watching the status of your business.');
         });
     }
 }

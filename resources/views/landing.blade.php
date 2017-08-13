@@ -8,6 +8,9 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic|Roboto+Condensed:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css">
+    <link href="css/app.css" rel="stylesheet" media="screen">
+    <link href="css/style.css" rel="stylesheet" media="screen">
     <link href="css/style.css" rel="stylesheet" media="screen">
 </head>
 <body>
@@ -57,28 +60,13 @@
 <section class="features">
     <div class="container">
         <div class="row">
-
-            <div class="col-md-4">
-                <div class="circle"><i class="icon-bookmark"></i></div>
-                <h2>Quick &amp; Easy Setup</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna.</p>
-            </div>
-
-            <div class="col-md-4">
-                <div class="circle"><i class="icon-keypad"></i></div>
-                <h2>Parallax Scrolling</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna.</p>
-            </div>
-
-            <div class="col-md-4">
-                <div class="circle"><i class="icon-like"></i></div>
-                <h2>Responsive Design</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna.</p>
-            </div>
-
+            @foreach ($page->features as $feature)
+                <div class="col-md-4">
+                    <div class="circle"><i class="fa fa-5x {{ $feature->icon }}"></i></div>
+                    <h2>{{ $feature->header }}</h2>
+                    <p>{{ $feature->body }}</p>
+                </div>
+            @endforeach
         </div>
     </div>
 </section>

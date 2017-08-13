@@ -33,3 +33,12 @@ $factory->define(App\Models\EmailContent::class, function (Faker\Generator $fake
     return [];
 });
 
+
+$factory->define(App\Models\Feature::class, function (Faker\Generator $faker) {
+    return [
+        'icon' => 'fa-question_circle',
+        'header' => $faker->sentence(3),
+        'body' => $faker->sentence(12),
+    ];
+});
+

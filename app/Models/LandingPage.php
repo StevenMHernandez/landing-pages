@@ -15,6 +15,14 @@ class LandingPage extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function features()
+    {
+        return $this->hasMany(Feature::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function owner()
