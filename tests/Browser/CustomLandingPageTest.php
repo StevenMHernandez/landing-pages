@@ -30,13 +30,16 @@ class CustomLandingPageTest extends DuskTestCase
             'subdomain' => 'test',
             'domain' => null,
             'user_id' => $this->user->id,
+            'name' => 'Doom Homepage 1994',
             'header' => 'Welcome to your doom!',
             'sign_up_text' => 'Sign On Up'
         ]);
 
         $this->browse(function (Browser $browser) {
             $browser->visit('http://test.landing.app')
-                ->assertSee('Welcome to your doom!')
+                ->driver->executeScript('window.scrollTo(0, 2200);');
+            $browser->assertSee('Doom Homepage 1994')
+                ->assertSee(strtoupper('Welcome to your doom!'))
                 ->assertValue('input[type="submit"]', 'Sign On Up');
         });
     }
@@ -61,13 +64,13 @@ class CustomLandingPageTest extends DuskTestCase
             'domain' => 'landing.app',
             'subdomain' => null,
             'user_id' => $this->user->id,
-            'header' => "Let's get you some money!",
+            'header' => "Get money!",
             'sign_up_text' => 'Sign Up Today'
         ]);
 
         $this->browse(function (Browser $browser) {
             $browser->visit('http://landing.app')
-                ->assertSee("Let's get you some money!");
+                ->assertSee(strtoupper("Get money!"));
         });
     }
 
@@ -91,7 +94,7 @@ class CustomLandingPageTest extends DuskTestCase
             Notification::fake();
 
             $browser->visit('http://test.landing.app')
-                ->assertSee('Welcome to your doom!')
+                ->assertSee(strtoupper('Welcome to your doom!'))
                 ->assertValue('input[type="submit"]', 'Sign On Up')
                 ->type('email', 'user@example.com')
                 ->type('description', 'We are an example company')

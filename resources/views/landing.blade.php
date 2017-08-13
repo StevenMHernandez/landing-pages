@@ -28,7 +28,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#">Landing.app</a>
+            <a class="navbar-brand" href="#">{{ $page->name }}</a>
 
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -136,19 +136,6 @@
                 </div>
                 {!! Form::submit($page->sign_up_text, ['class' => 'btn btn-primary']) !!}
                 {!! Form::close() !!}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <hr/>
-                <ul>
-                    <li><a href="#link-here">Contact</a></li>
-                    <li><a href="#link-here">Twitter</a></li>
-                    <li><a href="#link-here">Press</a></li>
-                    <li><a href="#link-here">Support</a></li>
-                    <li><a href="#link-here">Developers</a></li>
-                    <li><a href="#link-here">Privacy</a></li>
-                </ul>
             </div>
         </div>
     </div>

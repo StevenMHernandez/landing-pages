@@ -124,7 +124,7 @@ nav.navbar.fixed-to-top{
 
 .navbar-default .navbar-brand{
 	color: #333333;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	font-weight: 400;
 	font-size: 2em;
 	font-family: 'Roboto Condensed', sans-serif;
