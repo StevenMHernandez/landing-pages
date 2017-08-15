@@ -64,7 +64,7 @@
                 <div class="col-md-4">
                     <div class="circle"><i class="fa fa-5x {{ $feature->icon }}"></i></div>
                     <h2>{{ $feature->header }}</h2>
-                    <p>{{ $feature->body }}</p>
+                    <p>{!! $feature->body !!}</p>
                 </div>
             @endforeach
         </div>
@@ -78,8 +78,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna.</h1>
+                <h1>{{ $page->quote }}</h1>
             </div>
         </div>
     </div>
@@ -92,8 +91,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-2 col-md-8 text-left">
-                <h1>Everything's easily customizable.</h1>
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit a sit amet, consectetur adipisiciisicing elit. Lorem ipsum dolorur adium dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisng elit. Lorem ipsum dolor sit amet, consectetmet, consectetur adipicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipspisicing elit. Lorem ipsum dolor sit aum dolor sit amet, consectetur adimet, consectetur adipisicing elit. </p>
+                {{ \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($page->full_description) }}
             </div>
         </div>
     </div>
@@ -106,6 +104,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Connect with us</h2>
+                <p>{{ $page->form_text }}</p>
                 @foreach($page->socialLinks as $link)
                     <a class="{{ $link->icon }}" href="{{ $link->url }}"></a>
                 @endforeach

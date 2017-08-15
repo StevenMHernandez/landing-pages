@@ -33,7 +33,10 @@ class CustomLandingPageTest extends DuskTestCase
             'user_id' => $this->user->id,
             'name' => 'Doom Homepage 1994',
             'header' => 'Welcome to your doom!',
-            'sign_up_text' => 'Sign On Up'
+            'sign_up_text' => 'Sign On Up',
+            'quote' => 'Such fresh, such clean',
+            'full_description' => '# Markdown Description\nOk',
+            'form_text' => 'Drop us a line and we can talk about what you need from us.',
         ]);
 
         $this->browse(function (Browser $browser) {
@@ -41,6 +44,10 @@ class CustomLandingPageTest extends DuskTestCase
                 ->driver->executeScript('window.scrollTo(0, 2200);');
             $browser->assertSee('Doom Homepage 1994')
                 ->assertSee(strtoupper('Welcome to your doom!'))
+                ->assertSee(strtoupper('Such fresh, such clean'))
+                ->assertSee('Markdown Description')
+                ->assertDontSee('# Markdown Description')
+                ->assertSee('Drop us a line and we can talk about what you need from us.')
                 ->assertValue('input[type="submit"]', 'Sign On Up');
         });
     }
