@@ -19,6 +19,17 @@ class SubscriptionController extends Controller
 
     public function create(Request $request)
     {
+        $rules = [
+            'email' => 'required|email',
+            'description' => 'required',
+        ];
+
+        if (!app()->environment('test')) {
+            $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        $this->validate($request, $rules);
+
         $page = $this->getLandingPage($request);
 
         $subscriber = new Subscriber();

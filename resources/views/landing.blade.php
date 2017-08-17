@@ -120,6 +120,15 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 {!! Form::open(['method', 'POST', 'route' => 'create_subscription']) !!}
                 <div class="form-group">
                     <label for="email">
@@ -133,6 +142,9 @@
                     </label>
                     {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
                 </div>
+
+                @captcha()
+
                 {!! Form::submit($page->sign_up_text, ['class' => 'btn btn-primary']) !!}
                 {!! Form::close() !!}
             </div>

@@ -136,7 +136,11 @@ $(document).ready(function () {
 	
 	}
 
-});	
+	var $alertBox = $("div.alert-danger");
+    if ($alertBox.length) {
+        $(window).scrollTop($alertBox.offset().top);
+    }
+});
 
 
 $(window).resize(function () {
@@ -158,10 +162,11 @@ $(window).resize(function () {
 // iPhone Header Carousel
 $('header .carousel').carousel({
   interval: 3000
-})
+});
 
 // iPhone Features Carousel
 $('.detail .carousel').carousel({
   interval: 4000
-})
+});
+
 

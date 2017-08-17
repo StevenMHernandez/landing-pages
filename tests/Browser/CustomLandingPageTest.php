@@ -48,7 +48,8 @@ class CustomLandingPageTest extends DuskTestCase
                 ->assertSee('Markdown Description')
                 ->assertDontSee('# Markdown Description')
                 ->assertSee('Drop us a line and we can talk about what you need from us.')
-                ->assertValue('input[type="submit"]', 'Sign On Up');
+                ->assertValue('input[type="submit"]', 'Sign On Up')
+                ->assertDontSeeIn('.g-recaptcha', '');
         });
     }
 
@@ -122,6 +123,69 @@ class CustomLandingPageTest extends DuskTestCase
             $subscribers = $landingPage->subscribers()->get();
 
             $this->assertCount(1, $subscribers);
+        });
+    }
+
+    public function testFormSubmitFail()
+    {
+        $this->user = factory(User::class)->create([
+            'email' => 'subdomaincreator@landing.app',
+        ]);
+
+        $landingPage = factory(LandingPage::class)->create([
+            'subdomain' => 'test',
+            'domain' => null,
+            'user_id' => $this->user->id,
+            'header' => 'Welcome to your doom!',
+            'sign_up_text' => 'Sign On Up',
+            'thanks_text' => 'Aye, Thanks!',
+            'thanks_full_text' => 'We will let you know as things happen!',
+        ]);
+
+        factory(EmailContent::class)->create([
+            'landing_page_id' => $landingPage->id,
+            'thanks_text' => 'Thanks for your doom',
+            'description_text' => 'Mwahahaha',
+        ]);
+
+        $this->browse(function (Browser $browser) use ($landingPage) {
+            Notification::fake();
+
+            // Don't type email or description
+            $browser->visit('http://test.landing.app')
+                ->driver->executeScript('window.scrollTo(0, 2200);');
+            $browser->pause(100)
+                ->assertSee(strtoupper('Welcome to your doom!'))
+                ->assertValue('input[type="submit"]', 'Sign On Up')
+                ->press('Sign On Up')
+                ->waitForText('Email required')
+                ->assertRouteIs('landing_page');
+
+            // Don't type email
+            $browser->visit('http://test.landing.app')
+                ->driver->executeScript('window.scrollTo(0, 2200);');
+            $browser->pause(100)
+                ->assertSee(strtoupper('Welcome to your doom!'))
+                ->assertValue('input[type="submit"]', 'Sign On Up')
+                ->type('description', 'We are an example company')
+                ->press('Sign On Up')
+                ->waitForText('Email required')
+                ->assertRouteIs('landing_page');
+
+            // Don't type description
+            $browser->visit('http://test.landing.app')
+                ->driver->executeScript('window.scrollTo(0, 2200);');
+            $browser->pause(100)
+                ->assertSee(strtoupper('Welcome to your doom!'))
+                ->assertValue('input[type="submit"]', 'Sign On Up')
+                ->type('email', 'user@example.com')
+                ->press('Sign On Up')
+                ->waitForText('Description required')
+                ->assertRouteIs('landing_page');
+
+            $subscribers = $landingPage->subscribers()->get();
+
+            $this->assertCount(0, $subscribers);
         });
     }
 
