@@ -6,9 +6,12 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
           name="viewport">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic|Roboto+Condensed:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic|Roboto+Condensed:300italic,400italic,700italic,400,300,700'
+          rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet"
+          href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css">
     <link href="css/app.css" rel="stylesheet" media="screen">
     <link href="css/style.css" rel="stylesheet" media="screen">
     <link href="css/style.css" rel="stylesheet" media="screen">
@@ -91,7 +94,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-2 col-md-8 text-left">
-                {{ \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($page->full_description) }}
+                {!! Markdown::convertToHtml($page->full_description) !!}
             </div>
         </div>
     </div>
@@ -99,19 +102,33 @@
 
 <!-- SOCIAL
     ================================================== -->
-<section class="social">
+<section class="payoff2">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>Connect with us</h2>
-                <p>{{ $page->form_text }}</p>
-                @foreach($page->socialLinks as $link)
-                    <a class="{{ $link->icon }}" href="{{ $link->url }}"></a>
-                @endforeach
+                <h1>
+                    Start collecting emails of customers interested in using you application.
+                </h1>
             </div>
         </div>
     </div>
 </section>
+{{--<section class="social">--}}
+    {{--<div class="container">--}}
+        {{--<div class="row">--}}
+            {{--<div class="col-md-12">--}}
+                {{--@if($page->socialLinks->count())--}}
+                    {{--<h2>Connect with us</h2>--}}
+                    {{--@foreach($page->socialLinks as $link)--}}
+                        {{--<a class="{{ $link->icon }}" href="{{ $link->url }}"></a>--}}
+                    {{--@endforeach--}}
+                {{--@else--}}
+                    {{--<h1>Contact us</h1>--}}
+                {{--@endif--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</section>--}}
 
 
 <!-- GET IT
@@ -120,6 +137,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+
+                <div class="text-left">
+                    {!! Markdown::convertToHtml($page->form_text) !!}
+                </div>
+
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -138,7 +160,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description">
-                        Tell us about your company:
+                        Tell us how you want to use {{ $page->name }}:
                     </label>
                     {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
                 </div>

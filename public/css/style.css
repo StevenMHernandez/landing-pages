@@ -18,6 +18,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 
 p{
 	font-size: 1.2em;
+	margin-bottom: 1.5em;
 }
 
 .lead{
@@ -61,6 +62,7 @@ button {
 /*---- Typography ----*/
 header h1,
 .payoff h1,
+.payoff2 h1,
 .details .carousel,
 .social a:hover{
 	color: #e1e2dc;
@@ -73,7 +75,7 @@ header h1,
 /*---- Background ----*/
 .features,
 .detail .carousel-indicators .active {
-	background: #e1e2dc;
+	/*background: #e1e2dc;*/
 }
 
 
@@ -149,7 +151,7 @@ header h1{
 	text-transform: uppercase;
 	font-weight: 700;
 	font-weight: 300;
-	font-size: 100px;
+	font-size: 90px;
 	font-family: 'Roboto Condensed', sans-serif;
 
 }
@@ -230,6 +232,27 @@ header .carousel-indicators li {
 }
 
 .payoff h1{
+	text-transform: uppercase;
+	font-weight: 300;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 2.8em;
+}
+
+/*-----------------------------------------------------------------------------------*/
+/*	PAYOFF
+/*-----------------------------------------------------------------------------------*/
+
+.payoff2{
+	overflow: hidden;
+	padding: 230px 0px 150px 0px;
+	min-height: 600px;
+	background: url('../images/sea.jpg');
+	background-position: center top;
+	background-repeat: repeat-x;
+	color: white;
+}
+
+.payoff2 h1{
 	text-transform: uppercase;
 	font-weight: 300;
 	font-family: 'Roboto Condensed', sans-serif;
@@ -339,7 +362,7 @@ header .carousel-indicators li {
 }
 
 .features h2{
-	color: #ffffff;
+	color: #999;
 	text-transform: uppercase;
 	font-weight: 300;
 }
@@ -351,7 +374,7 @@ header .carousel-indicators li {
 	padding-top: 33px;
 	width: 150px;
 	height: 150px;
-	border: 3px solid #ffffff;
+	border: 3px solid #999;
 	border-radius: 100%;
 	text-align: center;
 
@@ -359,7 +382,7 @@ header .carousel-indicators li {
 
 .features span.glyphicon, .features i{
 	margin-top: 3px;
-	color: #ffffff;
+	color: #999;
 	font-size: 5em;
 }
 
@@ -375,6 +398,14 @@ header .carousel-indicators li {
 	background-position: center top;
 	background-repeat: repeat-x;
 	color: white;
+}
+
+.social h1{
+	color: white;
+	text-transform: uppercase;
+	font-weight: 300;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 2.8em;
 }
 
 .social h2{
@@ -489,6 +520,16 @@ header .carousel-indicators li {
 	}
 
 	.payoff h1{
+		font-size: 24px;
+	}
+
+	.payoff2{
+		padding-top: 50px;
+		padding-bottom: 50px;
+		min-height: 200px;
+	}
+
+	.payoff2 h1{
 		font-size: 24px;
 	}
 

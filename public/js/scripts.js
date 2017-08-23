@@ -108,6 +108,7 @@ function parallax() {
         if (iOS === false) {
             $('header').css('background-position-y', scaleBg);
             $('.payoff').css('background-position-y', scaleBg);
+            $('.payoff2').css('background-position-y', scaleBg + 200);
             $('.social').css('background-position-y', scaleBg);
         }
    

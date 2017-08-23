@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\EmailContent;
 use App\Models\LandingPage;
+use App\Models\Subscriber;
 use App\Models\User;
 use App\Notifications\NewSubscriber;
 use App\Notifications\Subscribed;
@@ -99,5 +100,37 @@ class LandingPageTest extends TestCase
         });
         Notification::assertNotSentTo([$otherUser], NewSubscriber::class);
         Notification::assertSentTo([$subscribers[0]], Subscribed::class);
+    }
+
+    public function testNotificationContainsTwitterShareLink()
+    {
+        Notification::fake();
+
+        $this->user = factory(User::class)->create([
+            'email' => 'subdomaincreator@landing.app',
+        ]);
+
+        $landingPage = factory(LandingPage::class)->create([
+            'subdomain' => 'test',
+            'domain' => null,
+            'user_id' => $this->user->id,
+            'header' => 'Welcome to your doom!',
+            'sign_up_text' => 'Sign On Up',
+            'thanks_text' => 'Aye, Thanks!',
+        ]);
+
+        factory(EmailContent::class)->create([
+            'landing_page_id' => $landingPage->id,
+            'thanks_text' => 'Finally, you subscribed!!',
+            'description_text' => 'We\'ll email you some questions soon',
+        ]);
+
+        $subscriber = factory(Subscriber::class)->create([
+            'landing_page_id' => $landingPage->id,
+        ]);
+
+        $mail = new Subscribed($subscriber);
+        
+        $x = $mail->toMail(null);
     }
 }

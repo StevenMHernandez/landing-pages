@@ -23,6 +23,12 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Models\Subscriber::class, function (Faker\Generator $faker) {
+    return [
+        'email' => $faker->unique()->safeEmail,
+    ];
+});
+
 $factory->define(App\Models\LandingPage::class, function (Faker\Generator $faker) {
     return [
         'subdomain' => $faker->name,
