@@ -18,11 +18,6 @@ class NewSubscriber extends Notification
     protected $subscriber;
 
     /**
-     * @var \App\Models\EmailContent
-     */
-    public $emailContent;
-
-    /**
      * Create a new notification instance.
      *
      * @param Subscriber $subscriber
@@ -30,13 +25,6 @@ class NewSubscriber extends Notification
     public function __construct(Subscriber $subscriber)
     {
         $this->subscriber = $subscriber;
-
-        $subscriber->load([
-            'landingPage',
-            'landingPage.emailContent',
-        ]);
-
-        $this->emailContent = $subscriber->landingPage->emailContent;
     }
 
     /**
@@ -59,8 +47,9 @@ class NewSubscriber extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line($this->emailContent->thanks_text)
-                    ->line($this->emailContent->description_text);
+                    ->line("A new lead has signed up at landing.buzz")
+                    ->line($this->subscriber->email)
+                    ->line("Awesome! Make sure to contact them back soon!");
     }
 
     /**

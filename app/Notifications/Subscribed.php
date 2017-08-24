@@ -13,9 +13,14 @@ class Subscribed extends Notification
     use Queueable;
 
     /**
-     * @var Subscriber
+     * @var \App\Models\Subscriber
      */
     protected $subscriber;
+
+    /**
+     * @var \App\Models\EmailContent
+     */
+    public $emailContent;
 
     /**
      * Create a new notification instance.
@@ -25,6 +30,13 @@ class Subscribed extends Notification
     public function __construct(Subscriber $subscriber)
     {
         $this->subscriber = $subscriber;
+
+        $subscriber->load([
+            'landingPage',
+            'landingPage.emailContent',
+        ]);
+
+        $this->emailContent = $subscriber->landingPage->emailContent;
     }
 
     /**
@@ -47,8 +59,8 @@ class Subscribed extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Thanks for subscribing!')
-                    ->line('We will be back to notify you soon of any updates.');
+            ->line($this->emailContent->thanks_text)
+            ->line($this->emailContent->description_text);
     }
 
     /**
