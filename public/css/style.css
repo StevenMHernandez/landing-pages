@@ -508,7 +508,12 @@ header .carousel-indicators li {
 		margin-bottom: 60px;
 	}
 
-	header, .social{
+	header{
+		background-position-y: 0px;
+		background-size: 335%;
+	}
+
+	.social{
 		background-position-y: 0px;
 		background-size: 200%;
 	}
