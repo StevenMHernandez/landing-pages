@@ -85,6 +85,10 @@
                 <div class="links">
                     {{ $page->thanks_full_text }}
                 </div>
+
+                <p>
+                    <a href="/">&larr; Back</a>
+                </p>
             </div>
         </div>
     </body>
